@@ -48,42 +48,43 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               const SizedBox(height: 30),
               CustomButton(
                 text: _isLoading ? 'Menyimpan...' : 'Submit',
-                onPressed: _isLoading 
-                  ? null 
-                  : () async {
-                      if (_newPasswordController.text != 
-                          _confirmPasswordController.text) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Password tidak cocok'),
-                          ),
-                        );
-                        return;
-                      }
-                      
-                      setState(() => _isLoading = true);
-                      try {
-                        await _authService.updatePassword(
-                          _newPasswordController.text,
-                        );
-                        if (mounted) {
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        if (_newPasswordController.text !=
+                            _confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Password tidak cocok'),
+                            ),
+                          );
+                          return;
+                        }
+
+                        setState(() => _isLoading = true);
+                        try {
+                          await _authService.updatePassword(
+                            _newPasswordController.text,
+                          );
+                          if (!mounted) return;
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Password berhasil diubah'),
                             ),
                           );
+                          // ignore: use_build_context_synchronously
                           Navigator.pushReplacementNamed(context, '/login');
+                        } catch (e) {
+                          if (!mounted) return;
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(e.toString())));
+                        } finally {
+                          if (mounted) setState(() => _isLoading = false);
                         }
-                      } catch (e) {
-                        if (mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.toString())),
-                          );
-                        }
-                      } finally {
-                        if (mounted) setState(() => _isLoading = false);
-                      }
-                    },
+                      },
               ),
               if (_isLoading)
                 const Padding(

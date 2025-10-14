@@ -47,11 +47,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _emailController.text,
                       _passwordController.text,
                     );
+                    if (!mounted) return;
+                    // ignore: use_build_context_synchronously
                     Navigator.pushReplacementNamed(context, '/login');
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(e.toString())),
-                    );
+                    if (!mounted) return;
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(e.toString())));
                   }
                 },
               ),
