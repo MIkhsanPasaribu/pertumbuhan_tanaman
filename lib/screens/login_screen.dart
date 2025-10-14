@@ -42,44 +42,45 @@ class _LoginScreenState extends State<LoginScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () => Navigator.pushNamed(context, '/forgot-password'),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, '/forgot-password'),
                   child: const Text('Lupa password?'),
                 ),
               ),
               const SizedBox(height: 20),
               CustomButton(
                 text: _isLoading ? 'Please wait...' : 'Sign in',
-                onPressed: _isLoading 
-                  ? null 
-                  : () async {
-                      if (_emailController.text.isEmpty || 
-                          _passwordController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Mohon isi email dan password'),
-                          ),
-                        );
-                        return;
-                      }
-                      setState(() => _isLoading = true);
-                      try {
-                        await _authService.signIn(
-                          _emailController.text,
-                          _passwordController.text,
-                        );
-                        if (mounted) {
-                          Navigator.pushReplacementNamed(context, '/home');
-                        }
-                      } catch (e) {
-                        if (mounted) {
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        if (_emailController.text.isEmpty ||
+                            _passwordController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.toString())),
+                            const SnackBar(
+                              content: Text('Mohon isi email dan password'),
+                            ),
                           );
+                          return;
                         }
-                      } finally {
-                        if (mounted) setState(() => _isLoading = false);
-                      }
-                    },
+                        setState(() => _isLoading = true);
+                        try {
+                          await _authService.signIn(
+                            _emailController.text,
+                            _passwordController.text,
+                          );
+                          if (!mounted) return;
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(context, '/home');
+                        } catch (e) {
+                          if (!mounted) return;
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(e.toString())));
+                        } finally {
+                          if (mounted) setState(() => _isLoading = false);
+                        }
+                      },
               ),
               const SizedBox(height: 20),
               Row(
@@ -98,7 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   _socialButton('assets/facebook.png'),
                   _socialButton('assets/google.png'),
-                  _socialButton('assets/x.png'), // Changed from twitter.png to x.png
+                  _socialButton(
+                    'assets/x.png',
+                  ), // Changed from twitter.png to x.png
                   _socialButton('assets/apple.png'),
                 ],
               ),
