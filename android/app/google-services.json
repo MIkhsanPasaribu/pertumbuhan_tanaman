@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "39356858113",
+    "project_id": "pertumbuhan-tanaman-23d07",
+    "storage_bucket": "pertumbuhan-tanaman-23d07.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39356858113:android:88dd249b402a0845d6e500",
+        "android_client_info": {
+          "package_name": "com.example.pertumbuhan_tanaman"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu6n0H76r3qFRme9Mgtf3kW3kFBIhTYuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
