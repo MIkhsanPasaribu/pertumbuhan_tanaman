@@ -56,6 +56,24 @@ class AuthService {
     }
   }
 
+  Future<void> updatePassword(String newPassword) async {
+    if (newPassword.isEmpty) {
+      throw 'Password tidak boleh kosong';
+    }
+    if (newPassword.length < 6) {
+      throw 'Password minimal 6 karakter';
+    }
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        throw 'User tidak ditemukan. Silakan login kembali';
+      }
+      await user.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      throw _handleAuthError(e.code);
+    }
+  }
+
   String _handleAuthError(String code) {
     switch (code) {
       case 'email-already-in-use':
