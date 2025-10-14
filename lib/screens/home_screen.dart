@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = AuthService();
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('GrowMate'),
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              const Color(0xFF00FF66).withOpacity(0.3),
+              const Color(0xFF00FF66).withValues(alpha: 0.3),
               Colors.white,
             ],
           ),
@@ -53,9 +53,9 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 authService.currentUser?.email ?? '',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.black54,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(color: Colors.black54),
               ),
               const SizedBox(height: 30),
               _buildInfoCard(
@@ -80,19 +80,14 @@ class HomeScreen extends StatelessWidget {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Icon(icon, size: 40, color: const Color(0xFF00FF66)),
             const SizedBox(height: 10),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 5),
             Text(
               description,
